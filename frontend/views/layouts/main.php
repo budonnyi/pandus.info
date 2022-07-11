@@ -24,6 +24,7 @@ $lang = Lang::getCurrent()->url;
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->registerCsrfMetaTags() ?>
 
@@ -132,9 +133,9 @@ $lang = Lang::getCurrent()->url;
 
 
 <main>
-    <div class="page-loader">
-        <div class="loader"><?= Yii::t('main', 'Завантаження...') ?></div>
-    </div>
+<!--    <div class="page-loader">-->
+<!--        <div class="loader">--><?//= Yii::t('main', 'Завантаження...') ?><!--</div>-->
+<!--    </div>-->
 
     <?= \frontend\widgets\NavbarWidget::widget() ?>
 
@@ -155,17 +156,17 @@ $lang = Lang::getCurrent()->url;
                     <img class="soc-icon-size" src="/images/social_icon/twitter.png" alt="twitter">
                 </div>
             </a>
-            <a href="tg://msg_url?url=<?= Url::current([], true); ?>" rel="noopener">
+            <a id="telegram_share" href="#" rel="noopener">
                 <div class="telegram share-block">
                     <img class="soc-icon-size" src="/images/social_icon/telegram.png" alt="telegram">
                 </div>
             </a>
-            <a class="share-btn-in" href="viber://forward?text=<?= Url::current([], true); ?>" rel="noopener">
+            <a href="#" id="viber_share" class="share-btn-in" rel="noopener">
                 <div class="viber share-block">
                     <img class="soc-icon-size" src="/images/social_icon/viber.png" alt="viber">
                 </div>
             </a>
-            <a href="whatsapp://send?text=<?= Url::current([], true); ?>" data-action="share/whatsapp/share" rel="noopener">
+            <a id="whatsapp_share" href="#" data-action="share/whatsapp/share" rel="noopener">
                 <div class="telegram share-block">
                     <img class="soc-icon-size" src="/images/social_icon/whatsapp.png" alt="whatsapp">
                 </div>
@@ -178,6 +179,18 @@ $lang = Lang::getCurrent()->url;
             </a>
         </div>
     </div>
+
+    <script>
+        var text = "<?= Url::current([], true); ?>";
+        document.getElementById('viber_share')
+            .setAttribute('href',"viber://forward?text=" + encodeURIComponent(text + " " + window.location.href));
+
+        document.getElementById('telegram_share')
+            .setAttribute('href',"tg://msg_url?url=" + encodeURIComponent(text + " " + window.location.href));
+
+        document.getElementById('whatsapp_share')
+            .setAttribute('href',"whatsapp://send?text=" + encodeURIComponent(text + " " + window.location.href));
+    </script>
 
     <?= FooterWidget::widget() ?>
 

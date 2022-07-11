@@ -1,61 +1,139 @@
-Order allow,deny
-allow from all
-#Deny from 31.43.56.3
+AddDefaultCharset utf-8
+
+#<IfModule mod_autoindex.c>
+#Options -Indexes
+#</IfModule>
+#
+## Mod_Rewrite
+#<IfModule mod_rewrite.c>
+## Enable symlinks
+#Options +SymLinksIfOwnerMatch
+## Enable mod_rewrite
+#RewriteEngine On
+#
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteCond %{REQUEST_URI} ^(.+)/$
+#RewriteRule ^(.+)/$ /$1 [R=301,L]
+#
+## Backend redirect
+#RewriteCond %{REQUEST_URI} ^/backend
+#RewriteRule ^backend(.*) /backend/web/$1 [L]
+#
+## Frontend redirect
+#RewriteCond %{REQUEST_URI} ^(.*)$
+#RewriteRule ^(.*)$ frontend/web/$1
+#
+#</IfModule>
+
+#<IfModule mod_rewrite.c>
+#    Options +SymLinksIfOwnerMatch
+#    RewriteEngine On
+#</IfModule>
 
 Options +SymLinksIfOwnerMatch
 IndexIgnore */*
 RewriteEngine on
-RewriteCond %{REQUEST_URI} !^/(web)
 
-ErrorDocument 404 https://pandus.info/error/404.html
-
-RewriteCond %{HTTP_HOST} ^www.pandus\.info$ [NC]
-RewriteRule ^(.*)$ https://pandus.info/$1 [R=301,L]
-
-# Если запрос начинается с /administrator, то заменяем на /backend/web/
+# Если запрос начинается с /adminpanel, то заменяем на /backend/web/
 RewriteCond %{REQUEST_URI} ^/admin
-RewriteRule ^admin\/?(.*) /backend/web/$1
+RewriteRule ^adminpanel\/?(.*) /backend/web/$1
 
 # Добавляем другой запрос /frontend/web/$1
 RewriteCond %{REQUEST_URI} !^/(frontend/web|backend/web|admin)
 RewriteRule (.*) /frontend/web/$1
 
 # Если frontend запрос
-#RewriteCond %{REQUEST_URI} ^/frontend/web
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule . /frontend/web/index.php
+RewriteCond %{REQUEST_URI} ^/frontend/web
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /frontend/web/index.php
 
 # Если backend запрос
-#RewriteCond %{REQUEST_URI} ^/backend/web
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule . /backend/web/index.php
+RewriteCond %{REQUEST_URI} ^/backend/web
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /backend/web/index.php
 
-# BEGIN EXPIRES
-#<IfModule mod_expires.c>
-#ExpiresActive On
-#ExpiresDefault "access plus 6 month"
-#
-#ExpiresByType text/plain                            "access plus 6 month"
-#ExpiresByType image/gif                             "access plus 6 month"
-#ExpiresByType image/png                             "access plus 6 month"
-#ExpiresByType image/jpeg                            "access plus 6 month"
-#ExpiresByType application/x-icon                    "access plus 6 month"
-#
-## CSS
-#ExpiresByType text/css                              "access plus 1 year"
-#
-## JavaScript
-#ExpiresByType application/javascript                "access plus 1 year"
-#ExpiresByType application/x-javascript              "access plus 1 year"
-#ExpiresByType text/javascript                       "access plus 1 year"
-#
-## Media files
-#ExpiresByType image/jpeg                            "access plus 1 month"
-#ExpiresByType image/png                             "access plus 1 month"
-#
+#<IfModule mod_rewrite.c>
+#    # если /admin, то в backend
+#    RewriteCond %{REQUEST_URI} ^/(admin)
+#    RewriteRule ^admin/assets/(.*)$ backend/web/assets/$1 [L]
+#    RewriteRule ^admin/css/(.*)$ backend/web/css/$1 [L]
+#    RewriteRule ^admin/js/(.*)$ backend/web/js/$1 [L]
+#    RewriteCond %{REQUEST_URI} !^/backend/web/(assets|js|css|js)/
+#    RewriteCond %{REQUEST_URI} ^/(admin)
+#    RewriteRule ^.*$ backend/web/index.php [L]
+#    RewriteCond %{REQUEST_URI} ^/(assets|css|js|images)
+#    RewriteRule ^assets/(.*)$ frontend/web/assets/$1 [L]
+#    RewriteRule ^css/(.*)$ frontend/web/css/$1 [L]
+#    RewriteRule ^js/(.*)$ frontend/web/js/$1 [L]
+#    RewriteRule ^images/(.*)$ frontend/web/images/$1 [L]
+#    RewriteRule ^(.*)$ frontend/web/$1 [L]
+#    RewriteCond %{REQUEST_URI} !^/(frontend|backend)/web/(assets|css|js)/
+#    RewriteCond %{REQUEST_URI} !index.php
+#    RewriteCond %{REQUEST_FILENAME} !-f [OR]
+#    RewriteCond %{REQUEST_FILENAME} !-d
+#    RewriteRule ^.*$ frontend/web/index.php
 #</IfModule>
-## END EXPIRES
 
-
+#Order allow,deny
+#allow from all
+##Deny from 31.43.56.3
+#
+#Options +SymLinksIfOwnerMatch
+#IndexIgnore */*
+#RewriteEngine on
+#RewriteCond %{REQUEST_URI} !^/(web)
+#
+#ErrorDocument 404 https://pandus.info/error/404.html
+#
+#RewriteCond %{HTTP_HOST} ^www.pandus\.info$ [NC]
+#RewriteRule ^(.*)$ https://pandus.info/$1 [R=301,L]
+#
+## Если запрос начинается с /administrator, то заменяем на /backend/web/
+#RewriteCond %{REQUEST_URI} ^/admin
+#RewriteRule ^admin\/?(.*) /backend/web/$1
+#
+## Добавляем другой запрос /frontend/web/$1
+#RewriteCond %{REQUEST_URI} !^/(frontend/web|backend/web|admin)
+#RewriteRule (.*) /frontend/web/$1
+#
+## Если frontend запрос
+##RewriteCond %{REQUEST_URI} ^/frontend/web
+##RewriteCond %{REQUEST_FILENAME} !-f
+##RewriteCond %{REQUEST_FILENAME} !-d
+##RewriteRule . /frontend/web/index.php
+#
+## Если backend запрос
+##RewriteCond %{REQUEST_URI} ^/backend/web
+##RewriteCond %{REQUEST_FILENAME} !-f
+##RewriteCond %{REQUEST_FILENAME} !-d
+##RewriteRule . /backend/web/index.php
+#
+## BEGIN EXPIRES
+##<IfModule mod_expires.c>
+##ExpiresActive On
+##ExpiresDefault "access plus 6 month"
+##
+##ExpiresByType text/plain                            "access plus 6 month"
+##ExpiresByType image/gif                             "access plus 6 month"
+##ExpiresByType image/png                             "access plus 6 month"
+##ExpiresByType image/jpeg                            "access plus 6 month"
+##ExpiresByType application/x-icon                    "access plus 6 month"
+##
+### CSS
+##ExpiresByType text/css                              "access plus 1 year"
+##
+### JavaScript
+##ExpiresByType application/javascript                "access plus 1 year"
+##ExpiresByType application/x-javascript              "access plus 1 year"
+##ExpiresByType text/javascript                       "access plus 1 year"
+##
+### Media files
+##ExpiresByType image/jpeg                            "access plus 1 month"
+##ExpiresByType image/png                             "access plus 1 month"
+##
+##</IfModule>
+### END EXPIRES
+#
+#

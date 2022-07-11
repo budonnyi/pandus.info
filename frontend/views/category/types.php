@@ -134,7 +134,7 @@ $this->registerJsFile("/dist/lib/isotope/dist/isotope.pkgd.js", ['position' => \
                         </p>
                         <p>Сплошные пандусы <a href="<?= Url::toRoute(['category/country', 'country' => 'Швеція']) ?>">шведского производства</a>, например
                             <a href="<?= Url::toRoute(['category/category', 'url' => 'iramps']) ?>">сплошной пандус iRamp</a>, или
-                            <a href="<?= Url::toRoute(['category/category', 'url' => 'anyramps']) ?> ?>">пандус сплошной Anyramp</a>,
+                            <a href="<?= Url::toRoute(['category/category', 'url' => 'anyramps']) ?>">пандус сплошной Anyramp</a>,
                             при сравнительно небольшом весе обеспечивают нагрузку до 400 кг. Такая
                             нагрузка пандусу достаточно для передвижения как детской коляски, так же как инвалида на
                             коляске, или скутере, а также на трехколесном средстве передвижения.</p>

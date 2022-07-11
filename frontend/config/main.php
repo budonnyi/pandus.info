@@ -44,8 +44,8 @@ return [
             'showScriptName' => false,
             'class' => 'frontend\components\LangUrlManager',
             'rules' => [
-                '/' => 'site/index',
-                'statistics/' => 'statistics/stat/index', //модуль статистики
+                '' => 'site/index',
+//                'statistics/' => 'statistics/stat/index', //модуль статистики
 //                '<controller:\w+>/<id:\d+>' => '<controller>/view',
 //                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 //                'test' => 'service/test',
@@ -80,7 +80,7 @@ return [
                     'route' => 'site/post',
                     'suffix' => '.html',
                 ],
-//                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
             ],
         ],
         'language'=>'ru-RU',
