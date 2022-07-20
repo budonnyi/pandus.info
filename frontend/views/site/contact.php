@@ -53,6 +53,7 @@ $this->params['schema'] = \yii\helpers\Json::encode([
                     <div class="module-subtitle font-serif"></div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-sm-4">
                     <div class="alt-features-item mt-0">
@@ -94,6 +95,20 @@ $this->params['schema'] = \yii\helpers\Json::encode([
                         <?= Html::submitButton(Yii::t('main', 'Відправити'), ['class' => 'btn btn-block btn-round btn-d', 'name' => 'contact-button']) ?>
                     </div>
                     <?php ActiveForm::end(); ?>
+
+                    <?php if (Yii::$app->session->hasFlash('success')): ?>
+                        <div class="alert alert-success alert-dismissable" role="alert">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <?= Yii::$app->session->getFlash('success') ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (Yii::$app->session->hasFlash('error')): ?>
+                        <div class="alert alert-danger alert-dismissable" role="alert">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <?= Yii::$app->session->getFlash('error') ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

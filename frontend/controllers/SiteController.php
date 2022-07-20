@@ -243,11 +243,12 @@ class SiteController extends AppController
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Дякуємо за повідомлення!');
+                Yii::$app->session->setFlash('success', Yii::t('main', 'Дякуємо за повідомлення!'));
+                $this->refresh();
             } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
+                Yii::$app->session->setFlash('error', Yii::t('main', 'Виникла помилка при відправлені...'));
+                $this->refresh();
             }
-            return $this->refresh();
         }
 
         return $this->render('contact', compact('model'));
